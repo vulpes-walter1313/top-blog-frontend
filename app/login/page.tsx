@@ -1,9 +1,12 @@
 "use client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 function LoginPage() {
   // TODO: add use states for error messages
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const loginMutation = useMutation({
     mutationFn: async ({
       email,
@@ -30,6 +33,11 @@ function LoginPage() {
         throw new Error("there is an error logging in");
       }
     },
+    onSuccess: () => {
+      queryClient.invalidateQueries({queryKey: ["user"]});
+      router.push("/");
+
+    }
   });
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();

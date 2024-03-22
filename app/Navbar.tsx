@@ -3,24 +3,14 @@ import Link from "next/link";
 import React from "react";
 import { useQueryClient, useQuery, useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import { getUserStateFromServer } from "@/lib/fetchFunctions";
 
 function Navbar() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const { data, isLoading, isError, status } = useQuery({
     queryKey: ["user"],
-    queryFn: async () => {
-      const rawData = await fetch(`http://localhost:3010/currentuser`, {
-        mode: "cors",
-        credentials: "include",
-      });
-      const data = await rawData.json();
-      if (data.success) {
-        return data;
-      } else {
-        throw new Error("user is not logged in");
-      }
-    },
+    queryFn: getUserStateFromServer,
   });
   const logoutMutation = useMutation({
     mutationFn: () => {
