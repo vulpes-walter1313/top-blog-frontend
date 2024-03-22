@@ -34,10 +34,9 @@ function LoginPage() {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({queryKey: ["user"]});
+      queryClient.invalidateQueries({ queryKey: ["user"] });
       router.push("/");
-
-    }
+    },
   });
   const submitHandler: React.FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
