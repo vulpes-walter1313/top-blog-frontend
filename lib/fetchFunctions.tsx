@@ -12,10 +12,10 @@ export async function getPost(postId: string) {
   }
 }
 
-export async function getComments(postId: string) {
+export async function getComments(postId: string, commentPage: string) {
   try {
     const rawRes = await fetch(
-      `http://localhost:3010/posts/${postId}/comments`,
+      `http://localhost:3010/posts/${postId}/comments?page=${commentPage}`,
     );
     const res = await rawRes.json();
     if (!res.success) {
